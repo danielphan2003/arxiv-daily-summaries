@@ -1,6 +1,7 @@
 # encoding: utf-8
 import deserialize
 import json
+import os
 import requests
 
 from collections import namedtuple
