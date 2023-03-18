@@ -8,7 +8,7 @@ from collections import namedtuple
 from bs4 import BeautifulSoup as bs
 from github import Github
 from transformers import pipeline
-from typing import Dict, List, Optional
+from typing import Dict, List, Optional, Tuple
 
 Paper = namedtuple("Paper", ["id", "title", "authors", "main_page", "tldr", "comments", "pdf"])
 
@@ -26,7 +26,7 @@ class Config:
 def sanitize_element(name: str, element: str) -> str:
     return element.text.replace(f"{name}:", " ").replace("\n", "").strip()
 
-def get_subscription(config: Config) -> Dict[str, List[Paper]]:
+def get_arxiv_news(config: Config) -> Tuple[str, Dict[str, List[Paper]]]:
     summarizer = pipeline("summarization", config.model_name)
     
     summarize = lambda text: summarizer(text, max_length=config.tldr_max_length)
@@ -63,7 +63,7 @@ def get_subscription(config: Config) -> Dict[str, List[Paper]]:
 
                 break
 
-    return sub
+    return issue_title, sub
 
 def generate_full_report(config: Config, sub: Dict[str, List[Paper]]) -> str:
     format_comment = lambda comment: f"<strong>:sunflower: Comments:</strong> {paper.comments}<br>" if comment else ""
@@ -101,7 +101,7 @@ def main():
     with open("config.json", "r", encoding="utf-8") as f:
         config = deserialize.deserialize(Config, json.load(f))
 
-    sub = get_subscription(config)
+    issue_title, sub = get_arxiv_news(config)
 
     full_report = generate_full_report(config, sub)
 
