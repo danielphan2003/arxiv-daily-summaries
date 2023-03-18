@@ -61,6 +61,8 @@ def get_subscription(config: Config) -> Dict[str, List[Paper]]:
     return sub
 
 def generate_full_report(config: Config, sub: Dict[str, List[Paper]]) -> str:
+    format_comment = lambda comment: f"<strong>:sunflower: Comments:</strong> {paper.comments}<br>" if comment else ""
+
     full_report = ""
 
     for keyword in config.keywords:
@@ -81,7 +83,7 @@ def generate_full_report(config: Config, sub: Dict[str, List[Paper]]) -> str:
                 <strong>:brain: Authors:</strong> {paper.authors}<br>\
                 <strong>:paw_prints: Details:</strong> <a href='{paper.main_page}'>arXiv:{paper.id}</a><br>\
                 <strong>:ramen: tl;dr:</strong> {paper.tldr}...</a><br>\
-                {f"<strong>:sunflower: Comments:</strong> {paper.comments}<br>" if paper.comments else ""}\
+                {format_comment(paper.comments)}\
                 <a href='{paper.pdf}'>:seedling: Read more &#8594;</a><br>"
  
             full_report += report
