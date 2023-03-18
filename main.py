@@ -47,7 +47,7 @@ def get_subscription(config: Config) -> Dict[str, List[Paper]]:
 
         for keyword in config.keywords:
             if keyword.lower() in abstract.lower():
-                id = dt_list[i].text.strip().split(" ")[2].split(":")[-1]
+                id = dt_list[idx].text.strip().split(" ")[2].split(":")[-1]
                 comments = dd.find("div", {"class": "list-comments"})
 
                 paper = Paper(
