@@ -8,6 +8,8 @@ on:
 jobs:
   report:
     runs-on: ubuntu-latest
+    permissions:
+      issues: write
     steps:
       - uses: actions/checkout@v3
 
@@ -24,5 +26,5 @@ jobs:
 
       - name: Report
         env:
-          GITHUB: ${{ secrets.GITHUB }}
-        run: "python -u main.py"
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python -u main.py
