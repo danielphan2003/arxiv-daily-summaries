@@ -1,10 +1,10 @@
 # encoding: utf-8
+import deserialize
 import json
 import requests
 
 from collections import namedtuple
 from bs4 import BeautifulSoup as bs
-from deserialize import deserialize
 from github import Github
 from transformers import pipeline
 from typing import Dict, List, Optional
@@ -99,7 +99,7 @@ def generate_full_report(config: Config, sub: Dict[str, List[Paper]]) -> str:
                                    
 def main():
     with open("config.json", "r", encoding="utf-8") as f:
-        config = deserialize(Config, json.load(f))
+        config = deserialize.deserialize(Config, json.load(f))
 
     sub = get_subscription(config)
 
