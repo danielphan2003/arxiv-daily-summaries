@@ -81,7 +81,7 @@ def generate_full_report(config: Config, sub: Dict[str, List[Paper]]) -> str:
                 <strong>:brain: Authors:</strong> {paper.authors}<br>\
                 <strong>:paw_prints: Details:</strong> <a href='{paper.main_page}'>arXiv:{paper.id}</a><br>\
                 <strong>:ramen: tl;dr:</strong> {paper.tldr}...</a><br>\
-                {paper.comments ? f"<strong>:sunflower: Comments:</strong> {paper.comments}<br>" : ""}\
+                {f"<strong>:sunflower: Comments:</strong> {paper.comments}<br>" if paper.comments else ""}\
                 <a href='{paper.pdf}'>:seedling: Read more &#8594;</a><br>"
  
             full_report += report
