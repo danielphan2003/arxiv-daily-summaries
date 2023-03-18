@@ -28,10 +28,10 @@ def sanitize_element(name: str, element: str) -> str:
 def get_subscription(config: Config) -> Dict[str, List[Paper]]:
     summarizer = pipeline("summarization", config.model_name)
     
-    summarize = lambda text: summarize(text, max_length=config.tldr_max_length)
+    summarize = lambda text: summarizer(text, max_length=config.tldr_max_length)
 
     page = requests.get(config.sub_url)
-    soup = bs(page.data.decode('utf-8'), "html.parser")
+    soup = bs(page.text, "html.parser")
     content = soup.body.find("div", {'id': 'content'})
 
     issue_title = content.find("h3").text
