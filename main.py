@@ -27,7 +27,7 @@ def main():
     model = Model()
     
     page = urllib.request.urlopen(NEW_SUB_URL)
-    soup = bs(page)
+    soup = bs(page, "html.parser")
     content = soup.body.find("div", {'id': 'content'})
 
     issue_title = content.find("h3").text
