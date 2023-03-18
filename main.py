@@ -1,4 +1,5 @@
 # encoding: utf-8
+import json
 import requests
 
 from collections import namedtuple
@@ -94,7 +95,7 @@ def generate_full_report(config: Config, sub: Dict[str, List[Paper]]) -> str:
                                    
 def main():
     with open("config.json", "r", encoding="utf-8") as f:
-        config = deserialize(Config, f)
+        config = deserialize(Config, json.load(f))
 
     sub = get_subscription(config)
 
