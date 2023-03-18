@@ -47,8 +47,8 @@ def get_subscription(config: Config) -> Dict[str, List[Paper]]:
 
                 paper = Paper(
                     id,
-                    title = sanitize_element("Title", dd.find("div", {"class": "list-title mathjax"}))
-                    authors = sanitize_element("Authors", dd.find("div", {"class": "list-authors"}))
+                    title = sanitize_element("Title", dd.find("div", {"class": "list-title mathjax"})),
+                    authors = sanitize_element("Authors", dd.find("div", {"class": "list-authors"})),
                     main_page = f"{arxiv_base}/abs/{id}",
                     tldr = summarize(abstract)[0]["summary_text"],
                     comments = comments ? sanitize_element("Comments", comments) : None,
