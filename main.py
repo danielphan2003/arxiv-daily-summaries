@@ -51,7 +51,7 @@ def get_subscription(config: Config) -> Dict[str, List[Paper]]:
                     authors = sanitize_element("Authors", dd.find("div", {"class": "list-authors"})),
                     main_page = f"{arxiv_base}/abs/{id}",
                     tldr = summarize(abstract)[0]["summary_text"],
-                    comments = comments ? sanitize_element("Comments", comments) : None,
+                    comments = sanitize_element("Comments", comments) if comments else None,
                     pdf = f"{arxiv_base}/pdf/{id}",
                     # abstract = abstract,
                 )
