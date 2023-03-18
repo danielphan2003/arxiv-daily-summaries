@@ -14,12 +14,14 @@ Paper = namedtuple("Paper", ["id", "title", "authors", "main_page", "tldr", "com
 
 @deserialize.default("arxiv_base", "https://arxiv.org")
 @deserialize.default("sub_url", "https://arxiv.org/list/cs/new")
+@deserialize.default("assignees", os.environ['GITHUB_REPOSITORY_OWNER'])
 @deserialize.default("tldr_max_length", 100)
 @deserialize.default("model_name", "facebook/bart-base")
 class Config:
     arxiv_base: str
     sub_url: str 
     keywords: List[str]
+    assignees: List[str]
     tldr_max_length: int
     model_name: str
 
@@ -110,9 +112,10 @@ def main():
         # and if is running in GitHub Actions
         if os.environ['GITHUB_ACTIONS'] and os.environ['GITHUB_ACTIONS'] == "true":
             g = Github(os.environ['GITHUB_TOKEN'])
-            user = os.environ['GITHUB_REPOSITORY_OWNER']
             repo = g.get_repo(os.environ['GITHUB_REPOSITORY'])
-            issue = repo.create_issue(title=issue_title, body=full_report, assignee=user, labels=config.keywords)
+            issue = repo.create_issue(title=issue_title, body=full_report, assignees=config.assignees, labels=config.keywords)
+            if issue:
+                print(f"A new issue has been created at {issue.number}")
         else:
             print(issue_title)
             print(full_report)
