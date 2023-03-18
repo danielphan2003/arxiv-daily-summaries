@@ -11,12 +11,16 @@ from typing import Dict, List, Optional
 
 Paper = namedtuple("Paper", ["id", "title", "authors", "main_page", "tldr", "comments", "pdf"])
 
+@deserialize.default("arxiv_base", "https://arxiv.org")
+@deserialize.default("sub_url", "https://arxiv.org/list/cs/new")
+@deserialize.default("tldr_max_length", 100)
+@deserialize.default("model_name", "facebook/bart-base")
 class Config:
-    arxiv_base: Optional[str] = "https://arxiv.org"
-    sub_url: Optional[str] = "https://arxiv.org/list/cs/new"
+    arxiv_base: str
+    sub_url: str 
     keywords: List[str]
-    tldr_max_length: Optional[int] = 100
-    model_name: Optional[str] = "facebook/bart-base"
+    tldr_max_length: int
+    model_name: str
 
 def sanitize_element(name: str, element: str) -> str:
     return element.text.replace(f"{name}:", " ").replace("\n", "").strip()
