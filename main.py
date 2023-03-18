@@ -48,20 +48,19 @@ def get_subscription(config: Config) -> Dict[str, List[Paper]]:
         for keyword in config.keywords:
             if keyword.lower() in abstract.lower():
                 id = dt_list[idx].text.strip().split(" ")[2].split(":")[-1]
+
                 comments = dd.find("div", {"class": "list-comments"})
 
-                paper = Paper(
-                    id,
-                    title = sanitize_element("Title", dd.find("div", {"class": "list-title mathjax"})),
-                    authors = sanitize_element("Authors", dd.find("div", {"class": "list-authors"})),
-                    main_page = f"{arxiv_base}/abs/{id}",
-                    tldr = summarize(abstract)[0]["summary_text"],
-                    comments = sanitize_element("Comments", comments) if comments else None,
-                    pdf = f"{arxiv_base}/pdf/{id}",
-                    # abstract = abstract,
-                )
+                sub[keyword].append(Paper(id,
+                                        title = sanitize_element("Title", dd.find("div", {"class": "list-title mathjax"})),
+                                        authors = sanitize_element("Authors", dd.find("div", {"class": "list-authors"})),
+                                        main_page = f"{config.arxiv_base}/abs/{id}",
+                                        tldr = summarize(abstract)[0]["summary_text"],
+                                        comments = sanitize_element("Comments", comments) if comments else None,
+                                        # abstract = abstract,
+                                        pdf = f"{config.arxiv_base}/pdf/{id}"))
 
-                sub[keyword].append(paper)
+                break
 
     return sub
 
@@ -74,7 +73,7 @@ def generate_full_report(config: Config, sub: Dict[str, List[Paper]]) -> str:
         paper_count = len(sub[keyword])
 
         if paper_count == 0:
-            pass
+            continue
  
         full_report += f"<h2>Keyword: {keyword} ({paper_count} papers)</h2>"
  
