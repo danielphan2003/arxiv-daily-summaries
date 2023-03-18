@@ -24,7 +24,7 @@ class Config:
     model_name: str
 
 def sanitize_element(name: str, element: str) -> str:
-    return element.text.replace(f"{name}:", " ").replace("\n", "").strip()
+    return element.text.replace(f"{name}:", " ").replace("\n", " ").strip()
 
 def get_arxiv_news(config: Config) -> Tuple[str, Dict[str, List[Paper]]]:
     summarizer = pipeline("summarization", config.model_name)
