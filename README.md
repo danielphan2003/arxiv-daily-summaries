@@ -1,35 +1,33 @@
 # arXiv Daily Summaries
-This project creates an issue on every work day with the latest arXiv pre-prints matching a given set of keywords. It also creates a TL;DR summary automatically using [BART](https://huggingface.co/facebook/bart-base).
+This project creates an issue on every work day with the latest arXiv pre-prints matching a given set of keywords. It also creates a TL;DR summary automatically using [BART](https://huggingface.co/facebook/bart-base) by default.
 
-## Usage( github actions)
+# Configuration
 
-#### 1. Clone and create new repository on Github
+In config.json file, you can specify:
+- `arxiv_base`: The base URL to arXiv.org. Default to "https://arxiv.org".
+- `sub_url`: Where to look for paper. Default to "https://arxiv.org/list/new/cs".
+- `enable_emojis`: Whether to enable emojis or not. Default to False.
+- `keywords`: List of keywords to look for in each papers. Those selected will get a generated summaries from the model in `model_name`.
+- `assignees`: List of assignees whenever a new issue is created. Default to `os.environ['GITHUB_REPOSITORY_OWNER']`.
+- `tldr_max_length`: Max length for the generated summaries.
+- `model_name`: Model name for generating text.
 
-- Create a repository to get notification in your github.
--  **click "Settings"->"Secrets"->"New repository secret"** 
+## Usage
 
-```python
-Name: GITHUB
-# Authentication for user filing issue (must have read/write access to repository to add issue to)
-Value: your_github_username,your_github_token
+#### 1. Fork it to your repository on Github
+
+#### 2. Update `config.json`
+
+```json
+{
+  "enable_emojis": true,
+  "keywords": ["iot"],
+  "assignees": ["danielphan2003"],
+  "tldr_max_length": 200
+}
 ```
 
-#### 2. Update `config.py`
+#### 3. Run a orkflow
 
-```python
-
-# The repository to add this issue to
-REPO_OWNER = 'changeme'
-REPO_NAME = 'changeme'
-
-# Set new submission url of subject
-NEW_SUB_URL = 'https://arxiv.org/list/cs/new'
-
-# Keywords to search
-KEYWORD_LIST = ["changeme"]
-```
-
-#### 3.  Workflow
-
-To test the functionality, you can click " Run Workflow button" for an immediate run.
+To test the functionality, you can click "Run Workflow button" for an immediate run.
 
