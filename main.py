@@ -14,12 +14,14 @@ Paper = namedtuple("Paper", ["id", "title", "authors", "main_page", "tldr", "com
 
 @deserialize.default("arxiv_base", "https://arxiv.org")
 @deserialize.default("sub_url", "https://arxiv.org/list/cs/new")
+@deserialize.default("enable_emojis", false)
 @deserialize.default("assignees", os.environ['GITHUB_REPOSITORY_OWNER'])
 @deserialize.default("tldr_max_length", 100)
 @deserialize.default("model_name", "facebook/bart-base")
 class Config:
     arxiv_base: str
     sub_url: str 
+    enable_emojis: bool
     keywords: List[str]
     assignees: List[str]
     tldr_max_length: int
@@ -68,7 +70,7 @@ def get_arxiv_news(config: Config) -> Tuple[str, Dict[str, List[Paper]]]:
     return issue_title, sub
 
 def generate_full_report(config: Config, sub: Dict[str, List[Paper]]) -> str:
-    format_comment = lambda comment: f"<strong>:sunflower: Comments:</strong> {paper.comments}<br>" if comment else ""
+    format_comment = lambda comment: f"<strong>{':sunflower: ' if config.enable_emojis else ''}Comments:</strong> {paper.comments}<br>" if comment else ""
 
     full_report = ""
 
@@ -87,11 +89,11 @@ def generate_full_report(config: Config, sub: Dict[str, List[Paper]]) -> str:
             #     .format(paper['title'], paper['authors'], paper['subjects'], paper['main_page'], paper['pdf'],
             #             paper['abstract'])
             report = f"<h3>{paper.title}</h3>\
-                <strong>:brain: Authors:</strong> {paper.authors}<br>\
-                <strong>:paw_prints: Details:</strong> <a href='{paper.main_page}'>arXiv:{paper.id}</a><br>\
-                <strong>:ramen: tl;dr:</strong> {paper.tldr}...</a><br>\
+                <strong>{':brain: ' if config.enable_emojis else ''}Authors:</strong> {paper.authors}<br>\
+                <strong>{':paw_prints: ' if config.enable_emojis else ''}Details:</strong> <a href='{paper.main_page}'>arXiv:{paper.id}</a><br>\
+                <strong>{':ramen: ' if config.enable_emojis else ''}tl;dr:</strong> {paper.tldr}...</a><br>\
                 {format_comment(paper.comments)}\
-                <a href='{paper.pdf}'>:seedling: Read more &#8594;</a><br>"
+                <a href='{paper.pdf}'>{':seedling: ' if config.enable_emojis else ''}Read more &#8594;</a><br>"
  
             full_report += report
 
