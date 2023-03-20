@@ -14,7 +14,7 @@ Paper = namedtuple("Paper", ["id", "title", "authors", "main_page", "tldr", "com
 
 @deserialize.default("arxiv_base", "https://arxiv.org")
 @deserialize.default("sub_url", "https://arxiv.org/list/cs/new")
-@deserialize.default("enable_emojis", false)
+@deserialize.default("enable_emojis", False)
 @deserialize.default("assignees", os.environ['GITHUB_REPOSITORY_OWNER'])
 @deserialize.default("tldr_max_length", 100)
 @deserialize.default("model_name", "facebook/bart-base")
