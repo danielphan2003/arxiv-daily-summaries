@@ -1,7 +1,7 @@
 {
   "enable_emojis": true,
-  "keywords": ["iot", "edge computing", "green net", "Network Function Virtualization", "Wireless Sensor Networks"],
-  "assignees": ["danielphan2003"],
+  "keywords": ["IoT", "edge computing", "Blockchain", "Federated Learning", "e-healthcare"],
+  "assignees": ["danielphan2003", "CornKT", "noneknow12"],
   "tldr_max_length": 250,
   "model_name": "facebook/bart-large-cnn"
 }
