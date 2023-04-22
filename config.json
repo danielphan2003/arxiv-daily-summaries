@@ -1,7 +1,7 @@
 {
   "enable_emojis": true,
   "keywords": ["IoT", "edge computing", "Blockchain", "Federated Learning", "e-healthcare"],
-  "assignees": ["danielphan2003", "CornKT", "navtuan12"],
+  "assignees": ["danielphan2003"],
   "tldr_max_length": 250,
   "model_name": "facebook/bart-large-cnn"
 }
